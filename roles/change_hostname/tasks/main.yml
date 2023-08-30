@@ -1,0 +1,10 @@
+- name: Set hostname for Linux
+  ansible.builtin.hostname:
+    name: "{{ new_hostname }}"
+  when: ansible_os_family == "Linux"
+
+- name: Set hostname for Windows
+  ansible.builtin.win_shell: |
+    $newHostname = "{{ new_hostname }}"
+    Rename-Computer -NewName $newHostname -Force -Restart
+  when: ansible_os_family == "Windows"
